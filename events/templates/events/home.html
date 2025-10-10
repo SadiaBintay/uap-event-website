@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Home - UAP Event Website</title>
+    <style>
+        nav ul { list-style: none; display: flex; gap: 20px; }
+        nav a { text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'events_list' %}">Events</a></li>
+            <li><a href="{% url 'achievements' %}">Achievements</a></li>
+            <li><a href="{% url 'gallery' %}">Gallery</a></li>
+            <li><a href="{% url 'news' %}">News</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+    </nav>
+    <hr>
+
+    <h1>Welcome to UAP Event Website</h1>
+    <p>Discover upcoming events, achievements, news, and more.</p>
+
+    <footer>
+        <p>&copy; 2025 UAP Event Website</p>
+    </footer>
+</body>
+</html>

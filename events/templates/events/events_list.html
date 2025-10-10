@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Events - UAP Event Website</title>
+    <style>
+        nav ul { list-style: none; display: flex; gap: 20px; }
+        nav a { text-decoration: none; }
+        .event { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'events_list' %}">Events</a></li>
+            <li><a href="{% url 'achievements' %}">Achievements</a></li>
+            <li><a href="{% url 'gallery' %}">Gallery</a></li>
+            <li><a href="{% url 'news' %}">News</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+    </nav>
+    <hr>
+
+    <h1>Upcoming Events</h1>
+
+    {% for event in events %}
+    <div class="event">
+        <h3><a href="{% url 'event_detail' event.id %}">{{ event.title }}</a></h3>
+        <p><strong>Date:</strong> {{ event.date }}</p>
+        <p><strong>Location:</strong> {{ event.location }}</p>
+    </div>
+    {% empty %}
+    <p>No events found.</p>
+    {% endfor %}
+
+    <footer>
+        <p>&copy; 2025 UAP Event Website</p>
+    </footer>
+</body>
+</html>
