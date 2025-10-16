@@ -1,27 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>About - UAP Event Website</title>
-</head>
-<body>
-    <nav>
-        <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'events_list' %}">Events</a></li>
-            <li><a href="{% url 'achievements' %}">Achievements</a></li>
-            <li><a href="{% url 'gallery' %}">Gallery</a></li>
-            <li><a href="{% url 'about' %}">About</a></li>
-            <li><a href="{% url 'contact' %}">Contact</a></li>
-        </ul>
-    </nav>
-    <hr>
+{% extends 'base.html' %}
 
-    <h1>About Us</h1>
-    <p>Information about UAP and its events.</p>
+{% block title %}About{% endblock %}
 
-    <footer>
-        <p>&copy; 2025 UAP Event Website</p>
-    </footer>
-</body>
-</html>
+{% block content %}
+<h1>About Us</h1>
+<p>Information about the organization, mission, and vision.</p>
+{% endblock %}

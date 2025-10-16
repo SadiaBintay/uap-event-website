@@ -1,35 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>{{ event.title }} - UAP Event Website</title>
-    <style>
-        nav ul { list-style: none; display: flex; gap: 20px; }
-        nav a { text-decoration: none; }
-    </style>
-</head>
-<body>
-    <nav>
-        <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'events_list' %}">Events</a></li>
-            <li><a href="{% url 'achievements' %}">Achievements</a></li>
-            <li><a href="{% url 'gallery' %}">Gallery</a></li>
-            <li><a href="{% url 'news' %}">News</a></li>
-            <li><a href="{% url 'about' %}">About</a></li>
-            <li><a href="{% url 'contact' %}">Contact</a></li>
-        </ul>
-    </nav>
-    <hr>
+{% extends 'base.html' %}
 
-    <h1>{{ event.title }}</h1>
+{% block title %}{{ event.title }} - UAP Event Website{% endblock %}
+
+{% block content %}
+<h2>{{ event.title }}</h2>
+
+<div style="border:1px solid #ccc; padding:15px; margin-bottom:15px;">
+    <p><strong>Description:</strong> {{ event.description }}</p>
     <p><strong>Date:</strong> {{ event.date }}</p>
     <p><strong>Location:</strong> {{ event.location }}</p>
-    <p><strong>Description:</strong></p>
-    <p>{{ event.description }}</p>
 
-    <footer>
-        <p>&copy; 2025 UAP Event Website</p>
-    </footer>
-</body>
-</html>
+    {% if user.is_authenticated %}
+        <form action="{% url 'apply_event' event.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Apply</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}">Login</a> to apply for this event</p>
+    {% endif %}
+</div>
+
+<p><a href="{% url 'events_list' %}">← Back to Events</a></p>
+{% endblock %}

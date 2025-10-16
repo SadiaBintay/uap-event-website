@@ -1,47 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>News - UAP Event Website</title>
-    <style>
-        nav ul { list-style: none; display: flex; gap: 20px; }
-        nav a { text-decoration: none; }
-        .news-item { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
-    </style>
-</head>
-<body>
-    <nav>
-        <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'events_list' %}">Events</a></li>
-            <li><a href="{% url 'achievements' %}">Achievements</a></li>
-            <li><a href="{% url 'gallery' %}">Gallery</a></li>
-            <li><a href="{% url 'news' %}">News</a></li>
-            <li><a href="{% url 'about' %}">About</a></li>
-            <li><a href="{% url 'contact' %}">Contact</a></li>
-        </ul>
-    </nav>
-    <hr>
+{% extends 'base.html' %}
 
-    <h1>Latest News</h1>
+{% block title %}News{% endblock %}
 
-    <div class="news-item">
-        <h3>UAP Students Win National Hackathon</h3>
-        <p>Team Innovators from UAP secured 1st place at the 2025 National Hackathon.</p>
-    </div>
-
-    <div class="news-item">
-        <h3>New Research Grant Awarded</h3>
-        <p>The EEE Department has received a grant for renewable energy research.</p>
-    </div>
-
-    <div class="news-item">
-        <h3>UAP Cultural Fest Announced</h3>
-        <p>Mark your calendars! The UAP Cultural Fest 2025 will be held in December.</p>
-    </div>
-
-    <footer>
-        <p>&copy; 2025 UAP Event Website</p>
-    </footer>
-</body>
-</html>
+{% block content %}
+<h1>Latest News</h1>
+<p>Keep up to date with the latest news and announcements.</p>
+{% endblock %}

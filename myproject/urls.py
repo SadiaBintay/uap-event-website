@@ -3,5 +3,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('events.urls')),  # This connects all event pages
+    path('', include('events.urls')),
+    path('accounts/', include('accounts.urls')),
 ]
