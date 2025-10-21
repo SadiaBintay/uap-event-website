@@ -1,8 +1,226 @@
 {% extends 'base.html' %}
 
-{% block title %}About{% endblock %}
+{% block title %}About UAP Events{% endblock %}
 
 {% block content %}
-<h1>About Us</h1>
-<p>Information about the organization, mission, and vision.</p>
+<div class="about-container">
+    <h1>About UAP Event Management System</h1>
+
+    <div class="mission-section">
+        <h2> Our Mission</h2>
+        <p>To create a dynamic platform that connects UAP students with diverse learning opportunities, fosters collaboration, and enhances the overall campus experience through well-organized events and competitions.</p>
+    </div>
+
+    <div class="vision-section">
+        <h2> Our Vision</h2>
+        <p>To become the central hub for all university activities, empowering students to discover their passions, develop new skills, and build lasting connections within the UAP community.</p>
+    </div>
+
+    <div class="what-we-do">
+        <h2>What We Do</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3> Event Management</h3>
+                <p>Streamlined event registration, application tracking, and participation management for all university activities.</p>
+            </div>
+            <div class="feature-card">
+                <h3>👥 Team Collaboration</h3>
+                <p>Easy team formation for group competitions and collaborative projects across different departments.</p>
+            </div>
+            <div class="feature-card">
+                <h3> Achievement Tracking</h3>
+                <p>Comprehensive leaderboard and achievement system to recognize and reward student participation.</p>
+            </div>
+            <div class="feature-card">
+                <h3> Secure Platform</h3>
+                <p>Protected event access with password authentication for exclusive competitions and workshops.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="event-types">
+        <h2>Event Categories</h2>
+        <div class="categories-list">
+            <div class="category-item">
+                <strong>Competitions</strong> - Academic, sports, and cultural contests
+            </div>
+            <div class="category-item">
+                <strong> Workshops</strong> - Hands-on skill development sessions
+            </div>
+            <div class="category-item">
+                <strong> Seminars</strong> - Educational talks and career guidance
+            </div>
+            <div class="category-item">
+                <strong> Fairs</strong> - Career, cultural, and club exhibitions
+            </div>
+            <div class="category-item">
+                <strong>Conference</strong>
+        </div>
+    </div>
+
+    <div class="stats-section">
+        <h2> Our Impact</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">{{ total_events }}+</div>
+                <div class="stat-label">Events Organized</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ total_participations }}+</div>
+                <div class="stat-label">Student Participations</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ unique_participants }}+</div>
+                <div class="stat-label">Active Students</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ departments_count }}+</div>
+                <div class="stat-label">Departments Involved</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="team-section">
+        <h2> Development Team</h2>
+        <p>This platform was developed by dedicated UAP students passionate about enhancing campus life through technology.</p>
+         <div class="team-members">
+            <div class="team-member">
+                <h4>Sadia Bintay Jalal</h4>
+                <p>Project Lead & Full Stack Developer</p>
+            </div>
+
+            <div class="team-member">
+                <h4>Fardin Rohit</h4>
+                <p>Frontend Developer</p>
+            </div>
+        </div>
+    </div>
+                 <
+
+    <div class="contact-cta">
+        <h2> Get Involved</h2>
+        <p>Have an event idea? Want to organize an activity? We'd love to hear from you!</p>
+        <a href="{% url 'contact' %}" class="cta-button">Contact Us</a>
+        <a href="{% url 'events_list' %}" class="cta-button secondary">Browse Events</a>
+    </div>
+</div>
+
+<style>
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.mission-section, .vision-section, .what-we-do, .event-types, .stats-section, .team-section, .contact-cta {
+    margin: 40px 0;
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.feature-card {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.categories-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.category-item {
+    padding: 10px 15px;
+    background: #e3f2fd;
+    border-radius: 5px;
+    border-left: 4px solid #2196f3;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.stat-item {
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 10px;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.team-members {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.team-member {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.contact-cta {
+    text-align: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 12px 30px;
+    margin: 10px;
+    background: white;
+    color: #667eea;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: transform 0.3s;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+}
+
+.cta-button.secondary {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+h1, h2, h3, h4 {
+    color: #2c3e50;
+}
+
+.contact-cta h2 {
+    color: white;
+}
+</style>
 {% endblock %}

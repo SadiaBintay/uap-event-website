@@ -1,8 +1,251 @@
-{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Achievements & Leaderboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .achievement-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .section-title {
+            color: #2c3e50;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .winner-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 10px;
+            border-left: 5px solid #f39c12;
+        }
+        .position-badge {
+            background: #e74c3c;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-right: 1rem;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .leaderboard {
+            list-style: none;
+            padding: 0;
+        }
+        .leaderboard-item {
+            background: white;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #27ae60;
+            transition: transform 0.2s;
+        }
+        .leaderboard-item:hover {
+            transform: translateX(5px);
+        }
+        .rank {
+            font-weight: bold;
+            color: #e74c3c;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+        .user-stats {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+        .medal {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+        .navigation {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 0 10px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        .btn-events {
+            background: #27ae60;
+        }
+        .btn-home {
+            background: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; color: #2c3e50; margin-bottom: 2rem;">
+        <i class="fas fa-trophy"></i> Achievements & Leaderboard
+    </h1>
 
-{% block title %}Achievements{% endblock %}
+    <!-- Statistics Section -->
+    <div class="achievement-section">
+        <h2 class="section-title"><i class="fas fa-chart-bar"></i> Event Statistics</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ total_events }}</div>
+                <div>Total Events</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ total_participations }}</div>
+                <div>Total Participations</div>
+            </div>
+        </div>
+    </div>
 
-{% block content %}
-<h1>Our Achievements</h1>
-<p>Showcase the notable accomplishments here.</p>
-{% endblock %}
+
+    {% if request.user.is_authenticated and user_achievements %}
+    <div class="user-stats">
+        <h2><i class="fas fa-user"></i> Your Achievements, {{ request.user.username }}!</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ user_achievements.events_applied }}</div>
+                <div>Events Applied</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ user_achievements.wins }}</div>
+                <div>Wins</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ user_achievements.participation_rate }}%</div>
+                <div>Participation Rate</div>
+            </div>
+            {% if user_achievements.rank %}
+            <div class="stat-card">
+                <div class="stat-number">#{{ user_achievements.rank }}</div>
+                <div>Your Rank</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Winners Section -->
+    <div class="achievement-section">
+        <h2 class="section-title"><i class="fas fa-medal"></i> Event Winners</h2>
+        {% if winners_by_event %}
+            {% for event_name, event_winners in winners_by_event.items %}
+            <h3 style="color: #2c3e50; margin-top: 1.5rem; padding-left: 1rem;">
+                <i class="fas fa-calendar-alt"></i> {{ event_name }}
+            </h3>
+            {% for winner in event_winners %}
+            <div class="winner-card">
+                <span class="position-badge">
+                    {% if winner.position == '1st' %}{% elif winner.position == '2nd' %}🥈{% else %}🥉{% endif %}
+                    {{ winner.position }}
+                </span>
+                <strong style="font-size: 1.1rem;">{{ winner.winner_name }}</strong>
+                <span style="float: right;">
+                    {% if winner.group_or_person == 'Group' %}
+                    <i class="fas fa-users"></i> Team
+                    {% else %}
+                    <i class="fas fa-user"></i> Individual
+                    {% endif %}
+                </span>
+            </div>
+            {% endfor %}
+            {% endfor %}
+        {% else %}
+            <p style="text-align: center; color: #7f8c8d; font-style: italic;">
+                <i class="fas fa-info-circle"></i> No winners announced yet. Be the first!
+            </p>
+        {% endif %}
+    </div>
+
+
+    <div class="achievement-section">
+        <h2 class="section-title"><i class="fas fa-trophy"></i> Top Participants</h2>
+        {% if top_participants %}
+            <ol class="leaderboard">
+                {% for participant in top_participants %}
+                <li class="leaderboard-item">
+                    <div style="display: flex; align-items: center;">
+                        <span class="rank">
+                            {% if forloop.counter == 1 %}🥇{% elif forloop.counter == 2 %}🥈{% elif forloop.counter == 3 %}🥉{% else %}#{{ forloop.counter }}{% endif %}
+                        </span>
+                        <div>
+                            <strong>{{ participant.username }}</strong>
+                            <div style="font-size: 0.9rem; color: #7f8c8d;">
+                                {{ participant.first_name }} {{ participant.last_name }}
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <span style="background: #3498db; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: bold;">
+                            {{ participant.events_applied }} event{{ participant.events_applied|pluralize }}
+                        </span>
+                    </div>
+                </li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <p style="text-align: center; color: #7f8c8d; font-style: italic;">
+                <i class="fas fa-users"></i> No participants yet. Join an event to be the first!
+            </p>
+        {% endif %}
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <a href="{% url 'events_list' %}" class="btn btn-events">
+            <i class="fas fa-calendar"></i> Browse Events
+        </a>
+        <a href="{% url 'home' %}" class="btn btn-home">
+            <i class="fas fa-home"></i> Go Home
+        </a>
+    </div>
+</body>
+</html>
