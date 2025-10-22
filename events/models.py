@@ -69,3 +69,19 @@ class Winner(models.Model):
 
     def __str__(self):
         return f"{self.winner_name} - {self.event.name}"
+
+class GalleryItem(models.Model):
+        MEDIA_TYPES = (
+            ('image', 'Image'),
+            ('video', 'Video'),
+        )
+
+        title = models.CharField(max_length=200)
+        description = models.TextField(blank=True)
+        media_type = models.CharField(max_length=5, choices=MEDIA_TYPES)
+        file = models.FileField(upload_to='gallery/')
+        uploaded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+        uploaded_at = models.DateTimeField(auto_now_add=True)
+
+        def __str__(self):
+            return self.title

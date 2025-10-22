@@ -3,6 +3,125 @@
 {% block title %}Gallery{% endblock %}
 
 {% block content %}
-<h1>Gallery</h1>
-<p>Photos and videos of past events.</p>
+<div class="main-content">
+  <h2>Event Gallery</h2>
+  <p style="text-align: center;">Photos and videos from recent events</p>
+
+  {% if user.is_authenticated %}
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Upload</button>
+    </form>
+  {% else %}
+  <p>Login to upload your images/videos.</p>
+  {% endif %}
+
+  <div class="gallery-container">
+    <!-- Orientation Day -->
+<!-- Orientation Day -->
+<div class="gallery-item">
+  <div class="orientation-photos">
+    <a href="/static/events/Orientation Day Photo 1.jpg" class="lightbox-link">
+      <img src="/static/events/Orientation Day Photo 1.jpg" alt="Orientation Day Photo 1">
+    </a>
+    <a href="/static/events/Orientation Day Photo 2.jpg" class="lightbox-link">
+      <img src="/static/events/Orientation Day Photo 2.jpg" alt="Orientation Day Photo 2">
+    </a>
+    <a href="/static/events/Orientation Day Photo 3.jpg" class="lightbox-link">
+      <img src="/static/events/Orientation Day Photo 3.jpg" alt="Orientation Day Photo 3">
+    </a>
+  </div>
+  <div class="caption">
+    <h4>Orientation Day</h4>
+    <p>Welcoming new students to UAP!</p>
+  </div>
+</div>
+
+<!-- Lightbox overlay -->
+<div id="lightbox-overlay" style="display:none;">
+  <span id="close-lightbox">&times;</span>
+  <img id="lightbox-image" src="">
+  <div id="lightbox-controls">
+    <button id="prev">&lt;</button>
+    <button id="next">&gt;</button>
+  </div>
+</div>
+
+
+    <!-- CE club fair 2025 -->
+    <div class="gallery-item">
+      <video src="/static/videos/uapCEclubfair.mp4" autoplay loop muted playsinline controls></video>
+      <div class="caption">
+        <h4>Civil Engineering club fair 3.0 2025</h4>
+        <p>Innovation and excitement in motion!</p>
+      </div>
+    </div>
+
+    <!-- Cultural Night -->
+    <div class="gallery-item">
+      <img src="/static/events/event3.jpg" alt="Cultural Night">
+      <div class="caption">
+        <h4>Cultural Night</h4>
+        <p>Music, dance, and cultural harmony.</p>
+      </div>
+    </div>
+
+    <!-- Add more items as needed -->
+  </div>
+</div>
+
+ {% for item in items %}
+      <div class="GalleryItem">
+        {% if item.media_type == 'image' %}
+          <img src="{{ item.file.url }}" alt="{{ item.title }}">
+        {% elif item.media_type == 'video' %}
+          <video src="{{ item.file.url }}" autoplay loop muted playsinline controls></video>
+        {% endif %}
+        <div class="caption">
+          <h4>{{ item.title }}</h4>
+          <p>{{ item.description }}</p>
+        </div>
+      </div>
+    {% endfor %}
+
+
+<script>
+const links = document.querySelectorAll('.lightbox-link');
+const overlay = document.getElementById('lightbox-overlay');
+const lightboxImg = document.getElementById('lightbox-image');
+const closeBtn = document.getElementById('close-lightbox');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+
+let currentIndex = 0;
+let images = [];
+
+// Collect all image hrefs
+links.forEach((link, index) => {
+  images.push(link.href);
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    currentIndex = index;
+    lightboxImg.src = images[currentIndex];
+    overlay.style.display = 'flex';
+  });
+});
+
+closeBtn.onclick = () => overlay.style.display = 'none';
+prevBtn.onclick = () => {
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  lightboxImg.src = images[currentIndex];
+};
+nextBtn.onclick = () => {
+  currentIndex = (currentIndex + 1) % images.length;
+  lightboxImg.src = images[currentIndex];
+};
+
+// Close overlay on click outside image
+overlay.addEventListener('click', (e) => {
+  if (e.target === overlay) overlay.style.display = 'none';
+});
+</script>
+
 {% endblock %}

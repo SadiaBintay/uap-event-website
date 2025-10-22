@@ -1,5 +1,7 @@
-from django.urls import path
+from django.contrib import admin
 from . import views
+from django.urls import path, include
+
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -10,6 +12,9 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     path('events/apply/<int:event_id>/', views.apply_event, name='apply_event'),
+    path('admin/', admin.site.urls),
+    path('accounts/', include('accounts.urls')),  # account app routes
+
 
 ]
 
