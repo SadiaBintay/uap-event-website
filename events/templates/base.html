@@ -1,15 +1,21 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html>
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}UAP Event Website{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'events/style.css' %}">
     <style>
         nav ul { list-style: none; display: flex; gap: 20px; }
         nav a { text-decoration: none; }
     </style>
 </head>
 <body>
-    <nav>
+     <div class="top-banner">
+        <div class="banner-content">
+            <img src="/static/events/uaplogo.png" alt="UAP Logo" class="logo">
+       <nav>
         <ul>
             <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href="{% url 'events_list' %}">Events</a></li>
@@ -18,13 +24,18 @@
             <li><a href="{% url 'about' %}">About</a></li>
             <li><a href="{% url 'contact' %}">Contact</a></li>
 
-            {% if user.is_authenticated %}
 
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'signup' %}">Sign Up</a></li>
-            {% endif %}
+        {% if user.is_authenticated %}
+            <li>Welcome, {{ user.username }}</li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+        {% endif %}
         </ul>
     </nav>
+            </div>
+         </div>
     <hr>
 
     <div>

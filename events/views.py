@@ -1,10 +1,15 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import  get_object_or_404
+
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.db.models import Count, Q
 from .models import Event, EventApplication, Winner, Team, TeamMember
 from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import GalleryItem
+from .forms import GalleryItemForm
+
 
 
 def home(request):
@@ -261,8 +266,28 @@ def achievements(request):
     return render(request, 'events/achievements.html', context)
 
 
+
+
 def gallery(request):
-    return render(request, 'events/gallery.html')
+    form = GalleryItemForm()
+    items = GalleryItem.objects.all().order_by('-uploaded_at')  # newest first
+
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect('login')  # or show a message
+        form = GalleryItemForm(request.POST, request.FILES)
+        if form.is_valid():
+            gallery_item = form.save(commit=False)
+            gallery_item.uploaded_by = request.user
+            gallery_item.save()
+            return redirect('gallery')  # redirect to same page
+
+    context = {
+        'items': items,
+        'form': form
+    }
+
+    return render(request, 'events/gallery.html', context )
 
 
 def news(request):
