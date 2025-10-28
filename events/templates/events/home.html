@@ -3,6 +3,30 @@
 {% block title %}Home - UAP Event Website{% endblock %}
 
 {% block content %}
-<h1>Welcome to UAP Event Website</h1>
-<p>Discover upcoming events, achievements, news, and more.</p>
+<style>
+    .home-content {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem;
+        border-radius: 15px;
+        text-align: center;
+        margin: 2rem 0;
+    }
+
+    .home-content h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .home-content p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+</style>
+
+<div class="home-content">
+    <h1>Welcome to UAP Event Website</h1>
+    <p>Discover upcoming events, achievements, news, and more.</p>
+</div>
 {% endblock %}

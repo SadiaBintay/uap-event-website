@@ -23,7 +23,6 @@ def signup_view(request):
     return render(request, 'accounts/signup.html')
 
 
-# Login view
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
