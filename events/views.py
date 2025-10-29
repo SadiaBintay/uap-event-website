@@ -7,8 +7,8 @@ from .models import Event, EventApplication, Winner, Team, TeamMember
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import GalleryItem
-from .forms import GalleryItemForm
+
+
 
 
 
@@ -269,25 +269,8 @@ def achievements(request):
 
 
 def gallery(request):
-    form = GalleryItemForm()
-    items = GalleryItem.objects.all().order_by('-uploaded_at')  # newest first
+    return render(request, 'events/gallery.html')
 
-    if request.method == 'POST':
-        if not request.user.is_authenticated:
-            return redirect('login')  # or show a message
-        form = GalleryItemForm(request.POST, request.FILES)
-        if form.is_valid():
-            gallery_item = form.save(commit=False)
-            gallery_item.uploaded_by = request.user
-            gallery_item.save()
-            return redirect('gallery')  # redirect to same page
-
-    context = {
-        'items': items,
-        'form': form
-    }
-
-    return render(request, 'events/gallery.html', context )
 
 
 def news(request):
